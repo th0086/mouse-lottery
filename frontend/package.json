@@ -1,0 +1,22 @@
+{
+  "name": "@mouse-lottery/frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "rm -rf .next-dev && NEXT_DISABLE_WEBPACK_CACHE=1 next dev -p 4000",
+    "build": "next build",
+    "start": "next start -p 4000",
+    "lint": "echo 'lint:frontend not configured yet'"
+  },
+  "dependencies": {
+    "next": "14.2.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@types/react": "^18.3.4",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.3"
+  }
+}

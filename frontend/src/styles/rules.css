@@ -1,0 +1,357 @@
+/* ==========================================================================
+   Rules page — "How to Play"
+   Figma: 老鼠樂透 0728  ·  PC 55:224  ·  App 55:2059
+
+   Gold and the page background use the global tokens (--tone-gold-500,
+   --tone-ink-900). Everything else is hardcoded on purpose — the design is
+   still moving, so the rest of the tokens get extracted once it settles.
+   The rgba(211, 169, 90, x) values are --tone-gold-500 with alpha; they are
+   written out because rgba() cannot take a hex custom property directly.
+
+   Figma canvases: PC 1832x1832, App 1024x3494. Desktop sizes are expressed as
+   clamp(min, <figma px / 1832 * 100>vw, <figma px>) so proportions hold from
+   1100px up to the 1832px canvas and stop growing past it.
+   ========================================================================== */
+
+.rules-page {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--rules-font-sans), "Segoe UI", "Trebuchet MS", sans-serif;
+  background-color: var(--tone-ink-900);
+  /* Figma's outer stop is #0d0a07; using the token instead keeps the gradient
+     and the flat fill below it identical, so there is no seam. */
+  background-image: radial-gradient(
+    134.7% 91.5% at 50% 15%,
+    #2d2216 0%,
+    #1d160f 35%,
+    var(--tone-ink-900) 70%
+  );
+  background-repeat: no-repeat;
+  /* 100vw height keeps the 1832x1832 square falloff of the Figma canvas;
+     below it the flat background-color takes over seamlessly. */
+  background-size: 100% 100vw;
+}
+
+/* --------------------------------------------------------------------------
+   Banner — one source image, two crops (PC 55:226 / App 55:2060).
+   The img is oversized and offset by the exact Figma percentages rather than
+   using object-fit, so the focal point matches the design on both layouts.
+   -------------------------------------------------------------------------- */
+
+.rules-banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1832 / 423;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rules-banner img {
+  position: absolute;
+  display: block;
+  left: 0.01%;
+  top: -54.19%;
+  width: 100.14%;
+  height: 208.75%;
+  max-width: none;
+}
+
+/* --------------------------------------------------------------------------
+   Content column — 1258/1832 = 68.7% of the canvas, capped at the design width
+   -------------------------------------------------------------------------- */
+
+.rules-content {
+  flex: 1;
+  width: min(68.7%, 1258px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.rules-title {
+  order: 1;
+  margin: clamp(18px, 1.7vw, 31px) 0 0;
+  font-size: clamp(32px, 2.62vw, 48px);
+  line-height: 1.42;
+  font-weight: 700;
+  color: var(--tone-gold-500);
+  text-align: center;
+}
+
+.rules-back-row {
+  order: 2;
+  display: flex;
+  justify-content: flex-end;
+  margin: clamp(4px, 0.5vw, 9px) 0 clamp(14px, 1.7vw, 31px);
+}
+
+.rules-back-link {
+  font-size: clamp(15px, 1.16vw, 21px);
+  font-weight: 700;
+  color: #d6982f;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+.rules-back-link:hover {
+  color: var(--tone-gold-500);
+}
+
+/* --------------------------------------------------------------------------
+   Accordion — the open item drops its rule, matching the Figma comp where
+   only the five closed rows carry a divider.
+   -------------------------------------------------------------------------- */
+
+.rules-accordion {
+  order: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.rules-accordion-item {
+  border-bottom: 1px solid var(--tone-gold-500);
+}
+
+.rules-accordion-item.is-open {
+  border-bottom: 0;
+}
+
+.rules-accordion-trigger {
+  width: 100%;
+  min-height: clamp(48px, 4.37vw, 80px);
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--rules-font-display), var(--rules-font-sans), sans-serif;
+  font-size: clamp(22px, 1.97vw, 36px);
+  line-height: 1.2;
+  color: var(--tone-gold-500);
+  text-align: left;
+}
+
+.rules-accordion-icon {
+  flex: none;
+  width: clamp(14px, 1.2vw, 22px);
+  height: auto;
+  aspect-ratio: 22.7071 / 12.0607;
+  color: var(--tone-gold-500);
+  transition: transform 0.2s ease;
+}
+
+.rules-accordion-item.is-open .rules-accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* Body copy sits 50px in from the heading on the PC canvas (336 vs 286). */
+.rules-accordion-content {
+  padding: 0 0 clamp(24px, 2.6vw, 48px) clamp(16px, 2.73vw, 50px);
+  display: grid;
+  gap: clamp(12px, 1.3vw, 24px);
+  color: #ffffff;
+  font-size: clamp(16px, 1.31vw, 24px);
+  line-height: 1.45;
+}
+
+.rules-accordion-content p {
+  margin: 0;
+}
+
+.rule-detail-block {
+  display: grid;
+  gap: clamp(12px, 1.3vw, 24px);
+}
+
+.rule-bullets {
+  margin: 0;
+  padding-left: 1.4em;
+  display: grid;
+  gap: clamp(8px, 0.85vw, 15px);
+}
+
+.rule-bullets li::marker {
+  color: var(--tone-gold-500);
+}
+
+/* Highlighted draw numbers, e.g. 5–6–7–8 */
+.rules-accent {
+  color: var(--tone-gold-500);
+}
+
+/* --------------------------------------------------------------------------
+   Missions table (rule 1) — not drawn in Figma, styled to match the palette
+   -------------------------------------------------------------------------- */
+
+.eligibility-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.eligibility-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(14px, 1.15vw, 21px);
+}
+
+.eligibility-table th,
+.eligibility-table td {
+  border: 1px solid rgba(211, 169, 90, 0.4);
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.eligibility-table th {
+  background: rgba(211, 169, 90, 0.12);
+  color: var(--tone-gold-500);
+  font-weight: 700;
+}
+
+.eligibility-table td {
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   Example callout (rule 6)
+   -------------------------------------------------------------------------- */
+
+.rules-example-box {
+  border: 1px solid rgba(211, 169, 90, 0.45);
+  padding: clamp(12px, 1.1vw, 20px) clamp(14px, 1.3vw, 24px);
+  display: grid;
+  gap: clamp(6px, 0.6vw, 11px);
+}
+
+.rules-example-title {
+  margin: 0;
+  color: var(--tone-gold-500);
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   Footer — copy stays as-is; only spacing/colour follow the new layout
+   -------------------------------------------------------------------------- */
+
+.rules-footer {
+  margin-top: clamp(40px, 4.4vw, 80px);
+  padding: 0 24px clamp(24px, 2.2vw, 40px);
+  color: #a09385;
+}
+
+.rules-footer p {
+  margin: 4px 0;
+  font-size: clamp(12px, 1.05vw, 19px);
+}
+
+/* --------------------------------------------------------------------------
+   Tablet / narrow desktop
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .rules-content {
+    width: min(92%, 1000px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile — Figma App 55:2059 (1024 canvas).
+   Type is NOT a literal 1:2.63 downscale: the comp's 25.5px body copy lands at
+   ~9.7px on a 390px viewport, which is unreadable. These rules are long-form
+   reading, so body copy sits at the 16px baseline and the heading scale is
+   opened up to keep the hierarchy legible. Table cells stay smaller — dense
+   tabular data reads fine at 14px.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 700px) {
+  .rules-page {
+    background-image: none;
+    background-color: var(--tone-ink-900);
+  }
+
+  .rules-banner {
+    aspect-ratio: 1024 / 538;
+  }
+
+  .rules-banner img {
+    left: -36.72%;
+    top: -7.98%;
+    width: 162.73%;
+    height: 149.07%;
+  }
+
+  .rules-content {
+    width: 100%;
+    padding: 0 7.3%;
+  }
+
+  .rules-title {
+    margin-top: 22px;
+    font-size: 24px;
+    line-height: 1.42;
+  }
+
+  /* Back to Game moves below the rules, above the footer */
+  .rules-back-row {
+    order: 4;
+    justify-content: center;
+    margin: 34px 0 0;
+  }
+
+  .rules-back-link {
+    font-size: 15px;
+  }
+
+  .rules-accordion {
+    margin-top: 20px;
+  }
+
+  .rules-accordion-trigger {
+    min-height: 44px;
+    font-size: 20px;
+  }
+
+  .rules-accordion-icon {
+    width: 18px;
+  }
+
+  .rules-accordion-content {
+    padding: 0 0 22px 12px;
+    gap: 14px;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .rule-detail-block {
+    gap: 14px;
+  }
+
+  .rule-bullets {
+    gap: 10px;
+  }
+
+  .eligibility-table {
+    font-size: 14px;
+  }
+
+  .eligibility-table th,
+  .eligibility-table td {
+    padding: 8px 10px;
+  }
+
+  .rules-footer {
+    margin-top: 30px;
+    padding: 0 16px 24px;
+  }
+
+  .rules-footer p {
+    font-size: 12px;
+  }
+}

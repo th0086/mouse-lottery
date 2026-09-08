@@ -1,0 +1,27 @@
+{
+  "name": "mouse-lottery",
+  "version": "1.0.0",
+  "description": "Hamster Spin monorepo",
+  "main": "index.js",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "dev:backend": "npm run dev --workspace backend",
+    "build": "npm run build --workspace shared && npm run build --workspace backend && npm run build --workspace frontend",
+    "start": "npm run start --workspace backend",
+    "test:e2e:draw-window": "npm run test:e2e:draw-window --workspace backend",
+    "test:e2e:wallet": "npm run test:e2e:wallet --workspace backend",
+    "lint": "npm run lint --workspace backend && npm run lint --workspace frontend"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "typescript": "^5.5.3"
+  },
+  "private": true
+}
