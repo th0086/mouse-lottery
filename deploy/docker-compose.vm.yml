@@ -1,18 +1,6 @@
 name: mouse-lottery
 
 services:
-  mongo:
-    image: mongo:7
-    container_name: mouse-lottery-mongo
-    restart: unless-stopped
-    volumes:
-      - mongo_data:/data/db
-    healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-
   backend:
     build:
       context: ..
@@ -22,11 +10,10 @@ services:
     env_file:
       - ../.env
     environment:
-      MONGODB_URI: mongodb://mongo:27017/mouse_lottery
+      MONGODB_URI: mongodb://mongo-shared:27017/mouse_lottery
       PORT: 4001
-    depends_on:
-      mongo:
-        condition: service_healthy
+    networks:
+      - vm_shared
 
   frontend:
     build:
@@ -38,6 +25,8 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
+    networks:
+      - vm_shared
 
   nginx:
     image: nginx:1.27-alpine
@@ -50,6 +39,10 @@ services:
     depends_on:
       - frontend
       - backend
+    networks:
+      - vm_shared
 
-volumes:
-  mongo_data:
+networks:
+  vm_shared:
+    name: vm-shared
+    external: true
