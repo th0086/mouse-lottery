@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Patch, Query, Res, UseGuards } from "@nestjs/common";
 import { Response } from "express";
-import { AdminIpGuard } from "../auth/admin-ip.guard";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { Permissions } from "../auth/permissions.decorator";
 import { PermissionsGuard } from "../auth/permissions.guard";
@@ -14,7 +13,7 @@ import {
 import { AdminService } from "./admin.service";
 
 @Controller("admin")
-@UseGuards(JwtAuthGuard, PermissionsGuard, AdminIpGuard)
+@UseGuards(JwtAuthGuard, PermissionsGuard)
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
